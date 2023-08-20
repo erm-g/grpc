@@ -556,7 +556,8 @@ static tsi_result fake_handshaker_result_extract_local_peer(
   if (result != TSI_OK) tsi_peer_destruct(local_peer);
   result = tsi_construct_string_peer_property_from_cstring(
       TSI_SECURITY_LEVEL_PEER_PROPERTY,
-      tsi_security_level_to_string(TSI_SECURITY_NONE), &local_peer->properties[1]);
+      tsi_security_level_to_string(TSI_SECURITY_NONE),
+      &local_peer->properties[1]);
   if (result != TSI_OK) tsi_peer_destruct(local_peer);
   return result;
 }
