@@ -22,6 +22,7 @@
 
 #include <limits.h>
 #include <string.h>
+
 #include <memory>
 
 // TODO(jboeuf): refactor inet_ntop into a portability header.
@@ -1262,7 +1263,7 @@ static tsi_result ssl_handshaker_result_extract_local_peer(
   unsigned int alpn_selected_len;
   const tsi_ssl_handshaker_result* impl =
       reinterpret_cast<const tsi_ssl_handshaker_result*>(self);
-  X509 *local_cert = SSL_get_certificate(impl->ssl);
+  X509* local_cert = SSL_get_certificate(impl->ssl);
   if (local_cert != nullptr) {
     result = peer_from_x509(local_cert, 1, local_peer);
     X509_free(local_cert);
@@ -1446,14 +1447,14 @@ static tsi_result ssl_handshaker_get_result(tsi_ssl_handshaker* impl) {
   return impl->result;
 }
 
-void print_cert_info(X509 *cert) {
-    BIO *bio = BIO_new_fp(stdout, BIO_NOCLOSE);
-    X509_NAME_print_ex(bio, X509_get_subject_name(cert), 0, XN_FLAG_ONELINE);
-    BIO_puts(bio, "\n");
-    X509_NAME_print_ex(bio, X509_get_issuer_name(cert), 0, XN_FLAG_ONELINE);
-    BIO_puts(bio, "\n");
+void print_cert_info(X509* cert) {
+  BIO* bio = BIO_new_fp(stdout, BIO_NOCLOSE);
+  X509_NAME_print_ex(bio, X509_get_subject_name(cert), 0, XN_FLAG_ONELINE);
+  BIO_puts(bio, "\n");
+  X509_NAME_print_ex(bio, X509_get_issuer_name(cert), 0, XN_FLAG_ONELINE);
+  BIO_puts(bio, "\n");
 
-    BIO_free(bio);
+  BIO_free(bio);
 }
 
 static tsi_result ssl_handshaker_do_handshake(tsi_ssl_handshaker* impl,
@@ -1467,9 +1468,9 @@ static tsi_result ssl_handshaker_do_handshake(tsi_ssl_handshaker* impl,
     int ssl_result = SSL_do_handshake(impl->ssl);
     ssl_result = SSL_get_error(impl->ssl, ssl_result);
     printf("***** Handshake successful p\n");
-    X509 *server_cert = SSL_get_certificate(impl->ssl);
+    X509* server_cert = SSL_get_certificate(impl->ssl);
     if (server_cert) {
-        X509_print_fp(stderr, server_cert);
+      X509_print_fp(stderr, server_cert);
     }
     switch (ssl_result) {
       case SSL_ERROR_WANT_READ:
