@@ -58,8 +58,8 @@ tsi_result handshaker_result_extract_peer(const tsi_handshaker_result* /*self*/,
   return TSI_OK;
 }
 
-tsi_result handshaker_result_extract_local_peer(const tsi_handshaker_result* /*self*/,
-                                          tsi_peer* /*peer*/) {
+tsi_result handshaker_result_extract_local_peer(
+    const tsi_handshaker_result* /*self*/, tsi_peer* /*peer*/) {
   return TSI_OK;
 }
 
