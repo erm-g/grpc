@@ -90,8 +90,7 @@ class grpc_fake_channel_security_connector final
 
   void enrich_auth_context(
       tsi_peer local_peer,
-      grpc_core::RefCountedPtr<grpc_auth_context>* auth_context) override {
-  };
+      grpc_core::RefCountedPtr<grpc_auth_context>* auth_context) override{};
 
   void cancel_check_peer(grpc_closure* /*on_peer_checked*/,
                          grpc_error_handle /*error*/) override {}
@@ -287,8 +286,7 @@ class grpc_fake_server_security_connector
 
   void enrich_auth_context(
       tsi_peer local_peer,
-      grpc_core::RefCountedPtr<grpc_auth_context>* auth_context) override {
-  };
+      grpc_core::RefCountedPtr<grpc_auth_context>* auth_context) override{};
 
   void cancel_check_peer(grpc_closure* /*on_peer_checked*/,
                          grpc_error_handle /*error*/) override {}

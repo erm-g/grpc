@@ -203,7 +203,8 @@ static tsi_result handshaker_result_extract_local_peer(
   ok = tsi_construct_string_peer_property(
       TSI_ALTS_CONTEXT,
       reinterpret_cast<char*>(GRPC_SLICE_START_PTR(result->serialized_context)),
-      GRPC_SLICE_LENGTH(result->serialized_context), &local_peer->properties[index]);
+      GRPC_SLICE_LENGTH(result->serialized_context),
+      &local_peer->properties[index]);
   if (ok != TSI_OK) {
     tsi_peer_destruct(local_peer);
     gpr_log(GPR_ERROR, "Failed to set tsi peer property");
