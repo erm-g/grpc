@@ -263,8 +263,8 @@ tsi_result tsi_handshaker_result_extract_peer(const tsi_handshaker_result* self,
   return self->vtable->extract_peer(self, peer);
 }
 
-tsi_result tsi_handshaker_result_extract_local_peer(const tsi_handshaker_result* self,
-                                              tsi_peer* local_peer) {
+tsi_result tsi_handshaker_result_extract_local_peer(
+    const tsi_handshaker_result* self, tsi_peer* local_peer) {
   if (self == nullptr || self->vtable == nullptr || local_peer == nullptr) {
     return TSI_INVALID_ARGUMENT;
   }

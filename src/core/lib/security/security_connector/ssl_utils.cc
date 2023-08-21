@@ -350,7 +350,8 @@ void grpc_add_ssl_local_peer_to_auth_context(
     const tsi_peer_property* prop = &local_peer->properties[i];
     if (prop->name == nullptr) continue;
     if (strcmp(prop->name, TSI_X509_URI_PEER_PROPERTY) == 0) {
-      grpc_auth_context_add_property(auth_context.get(), GRPC_PEER_URI_PROPERTY_NAME,
+      grpc_auth_context_add_property(auth_context.get(),
+                                     GRPC_PEER_URI_PROPERTY_NAME,
                                      prop->value.data, prop->value.length);
       uri_count++;
       absl::string_view spiffe_id(prop->value.data, prop->value.length);
