@@ -34,38 +34,28 @@ static absl::string_view me_get_local_address_unix(grpc_endpoint* /*ep*/) {
   return "unix:";
 }
 
-static const grpc_endpoint_vtable vtable_unix = {nullptr,
-                                            nullptr,
-                                            nullptr,
-                                            nullptr,
-                                            nullptr,
-                                            nullptr,
-                                            nullptr,
-                                            me_get_local_address_unix,
-                                            nullptr,
-                                            nullptr};
+static const grpc_endpoint_vtable vtable_unix = {
+    nullptr, nullptr, nullptr, nullptr,
+    nullptr, nullptr, nullptr, me_get_local_address_unix,
+    nullptr, nullptr};
 
 static absl::string_view me_get_local_address_local(grpc_endpoint* /*ep*/) {
   return "ipv4:127.0.0.1:12667";
 }
 
-static const grpc_endpoint_vtable vtable_local = {nullptr,
-                                            nullptr,
-                                            nullptr,
-                                            nullptr,
-                                            nullptr,
-                                            nullptr,
-                                            nullptr,
-                                            me_get_local_address_local,
-                                            nullptr,
-                                            nullptr};
+static const grpc_endpoint_vtable vtable_local = {
+    nullptr, nullptr, nullptr, nullptr,
+    nullptr, nullptr, nullptr, me_get_local_address_local,
+    nullptr, nullptr};
 
 static void check_tsi_security_level(grpc_local_connect_type connect_type,
-                                 tsi_security_level level, grpc_endpoint ep) {
-  grpc_server_credentials* server_creds = grpc_local_server_credentials_create(connect_type);
+                                     tsi_security_level level,
+                                     grpc_endpoint ep) {
+  grpc_server_credentials* server_creds =
+      grpc_local_server_credentials_create(connect_type);
   ChannelArgs args;
-  RefCountedPtr<grpc_server_security_connector> connector = server_creds->
-      create_security_connector(args);
+  RefCountedPtr<grpc_server_security_connector> connector =
+      server_creds->create_security_connector(args);
   EXPECT_NE(connector, nullptr);
   tsi_peer peer;
   CHECK(tsi_construct_peer(0, &peer) == TSI_OK);
@@ -89,15 +79,15 @@ static void check_tsi_security_level(grpc_local_connect_type connect_type,
 
 TEST_F(LocalSecurityConnectorTest, CheckUDSType) {
   grpc_endpoint ep = {
-        .vtable = &vtable_unix,
-    };
+      .vtable = &vtable_unix,
+  };
   check_tsi_security_level(UDS, TSI_PRIVACY_AND_INTEGRITY, ep);
 }
 
 TEST_F(LocalSecurityConnectorTest, CheckLocalType) {
   grpc_endpoint ep = {
-        .vtable = &vtable_local,
-    };
+      .vtable = &vtable_local,
+  };
   check_tsi_security_level(LOCAL_TCP, TSI_SECURITY_NONE, ep);
 }
 
