@@ -86,8 +86,6 @@ inline bool IsUnconstrainedMaxQuotaBufferSizeEnabled() { return false; }
 #define GRPC_EXPERIMENT_IS_INCLUDED_WORK_SERIALIZER_CLEARS_TIME_CACHE
 inline bool IsWorkSerializerClearsTimeCacheEnabled() { return true; }
 inline bool IsWorkSerializerDispatchEnabled() { return false; }
-#define GRPC_EXPERIMENT_IS_LOCAL_CONNECTOR_SECURE
-inline bool IsLocalConnectorSecure() { return false; }
 
 #elif defined(GPR_WINDOWS)
 #define GRPC_EXPERIMENT_IS_INCLUDED_CALL_STATUS_OVERRIDE_ON_CANCELLATION
@@ -122,8 +120,6 @@ inline bool IsUnconstrainedMaxQuotaBufferSizeEnabled() { return false; }
 #define GRPC_EXPERIMENT_IS_INCLUDED_WORK_SERIALIZER_CLEARS_TIME_CACHE
 inline bool IsWorkSerializerClearsTimeCacheEnabled() { return true; }
 inline bool IsWorkSerializerDispatchEnabled() { return false; }
-#define GRPC_EXPERIMENT_IS_LOCAL_CONNECTOR_SECURE
-inline bool IsLocalConnectorSecure() { return false; }
 
 #else
 #define GRPC_EXPERIMENT_IS_INCLUDED_CALL_STATUS_OVERRIDE_ON_CANCELLATION
@@ -157,8 +153,6 @@ inline bool IsUnconstrainedMaxQuotaBufferSizeEnabled() { return false; }
 #define GRPC_EXPERIMENT_IS_INCLUDED_WORK_SERIALIZER_CLEARS_TIME_CACHE
 inline bool IsWorkSerializerClearsTimeCacheEnabled() { return true; }
 inline bool IsWorkSerializerDispatchEnabled() { return false; }
-#define GRPC_EXPERIMENT_IS_LOCAL_CONNECTOR_SECURE
-inline bool IsLocalConnectorSecure() { return false; }
 #endif
 
 #else
@@ -171,7 +165,6 @@ enum ExperimentIds {
   kExperimentIdEventEngineDns,
   kExperimentIdEventEngineListener,
   kExperimentIdFreeLargeAllocator,
-  kExperimentIdLocalConnectorSecure,
   kExperimentIdMaxPingsWoDataThrottle,
   kExperimentIdMonitoringExperiment,
   kExperimentIdMultiping,
@@ -220,10 +213,6 @@ inline bool IsEventEngineListenerEnabled() {
 #define GRPC_EXPERIMENT_IS_INCLUDED_FREE_LARGE_ALLOCATOR
 inline bool IsFreeLargeAllocatorEnabled() {
   return IsExperimentEnabled<kExperimentIdFreeLargeAllocator>();
-}
-#define GRPC_EXPERIMENT_IS_LOCAL_CONNECTOR_SECURE
-inline bool IsLocalConnectorSecureEnabled() {
-  return IsExperimentEnabled<kExperimentIdLocalConnectorSecure>();
 }
 #define GRPC_EXPERIMENT_IS_INCLUDED_MAX_PINGS_WO_DATA_THROTTLE
 inline bool IsMaxPingsWoDataThrottleEnabled() {
