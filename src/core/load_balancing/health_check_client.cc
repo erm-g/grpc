@@ -144,18 +144,6 @@ void HealthProducer::HealthChecker::OnConnectivityStateChangeLocked(
   }
 }
 
-void HealthProducer::HealthChecker::StartHealthStreamLocked() {
-  if (GRPC_TRACE_FLAG_ENABLED(health_check_client)) {
-    LOG(INFO) << "HealthProducer " << producer_.get() << " HealthChecker "
-              << this << ": creating HealthClient for \""
-              << health_check_service_name_ << "\"";
-  }
-  stream_client_ = MakeOrphanable<SubchannelStreamClient>(
-      producer_->connected_subchannel_, producer_->subchannel_->pollset_set(),
-      std::make_unique<HealthStreamEventHandler>(Ref()),
-      GRPC_TRACE_FLAG_ENABLED(health_check_client) ? "HealthClient" : nullptr);
-}
-
 void HealthProducer::HealthChecker::NotifyWatchersLocked(
     grpc_connectivity_state state, absl::Status status) {
   if (GRPC_TRACE_FLAG_ENABLED(health_check_client)) {
@@ -311,6 +299,18 @@ class HealthProducer::HealthChecker::HealthStreamEventHandler final
   RefCountedPtr<HealthChecker> health_checker_;
 };
 
+void HealthProducer::HealthChecker::StartHealthStreamLocked() {
+  if (GRPC_TRACE_FLAG_ENABLED(health_check_client)) {
+    LOG(INFO) << "HealthProducer " << producer_.get() << " HealthChecker "
+              << this << ": creating HealthClient for \""
+              << health_check_service_name_ << "\"";
+  }
+  stream_client_ = MakeOrphanable<SubchannelStreamClient>(
+      producer_->connected_subchannel_, producer_->subchannel_->pollset_set(),
+      std::make_unique<HealthStreamEventHandler>(Ref()),
+      GRPC_TRACE_FLAG_ENABLED(health_check_client) ? "HealthClient" : nullptr);
+}
+
 //
 // HealthProducer::ConnectivityWatcher
 //
@@ -341,10 +341,9 @@ class HealthProducer::ConnectivityWatcher final
 //
 
 void HealthProducer::Start(RefCountedPtr<Subchannel> subchannel) {
-  if (GRPC_TRACE_FLAG_ENABLED(health_check_client)) {
-    LOG(INFO) << "HealthProducer " << this << ": starting with subchannel "
-              << subchannel.get();
-  }
+  GRPC_TRACE_LOG(health_check_client, INFO)
+      << "HealthProducer " << this << ": starting with subchannel "
+      << subchannel.get();
   subchannel_ = std::move(subchannel);
   {
     MutexLock lock(&mu_);
@@ -498,10 +497,9 @@ MakeHealthCheckWatcher(
     health_check_service_name =
         args.GetOwnedString(GRPC_ARG_HEALTH_CHECK_SERVICE_NAME);
   }
-  if (GRPC_TRACE_FLAG_ENABLED(health_check_client)) {
-    LOG(INFO) << "creating HealthWatcher -- health_check_service_name=\""
-              << health_check_service_name.value_or("N/A") << "\"";
-  }
+  GRPC_TRACE_LOG(health_check_client, INFO)
+      << "creating HealthWatcher -- health_check_service_name=\""
+      << health_check_service_name.value_or("N/A") << "\"";
   return std::make_unique<HealthWatcher>(std::move(work_serializer),
                                          std::move(health_check_service_name),
                                          std::move(watcher));
