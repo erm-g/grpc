@@ -509,9 +509,8 @@ static void alts_tsi_handshaker_create_channel(
   grpc_channel_credentials_release(creds);
   tsi_result continue_next_result =
       alts_tsi_handshaker_continue_handshaker_next(
-          handshaker, next_args->received_bytes,
-          next_args->received_bytes_size, next_args->cb, next_args->user_data,
-          next_args->error);
+          handshaker, next_args->received_bytes, next_args->received_bytes_size,
+          next_args->cb, next_args->user_data, next_args->error);
   if (continue_next_result != TSI_OK) {
     next_args->cb(continue_next_result, next_args->user_data, nullptr, 0,
                   nullptr);
